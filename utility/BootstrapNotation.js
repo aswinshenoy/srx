@@ -45,8 +45,9 @@ export function getStyleClass(type, val) {
       }
       return null;
     }
-    if (val >= 0 && val < 6) {
-      return `${type}-${val}`;
+    if (val >=-6 && val < 6) {
+      if(val>=0) { return `${type}-${val}`; }
+      else if(type==='m') { return `${type}-n${Math.abs(val)}`; }
     }
   }
   return null;

@@ -19,11 +19,11 @@ import { Row, Col } from 'srx'
 ```
 2.Use components as per specifications.
 ```
-    <Row m={0}>
-        <Col width={4}>Col 1</Col>
-        <Col width={4}>Col 2</Col>
-        <Col width={4}>Col 3</Col>
-    </Row>
+<Row m={0}>
+    <Col width={4}>Col 1</Col>
+    <Col width={4}>Col 2</Col>
+    <Col width={4}>Col 3</Col>
+</Row>
 ```
 ## Licenses
 * The source code is licensed under the [MIT](LICENSE)
