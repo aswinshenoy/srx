@@ -34,7 +34,6 @@ const orderOption = {
   step: 1,
 };
 
-
 storiesOf('Layout | Grid', module)
   .addDecorator(withKnobs)
   .addDecorator(withA11y)
@@ -53,13 +52,23 @@ storiesOf('Layout | Grid', module)
     </Row>
   ))
   .add('Ordered Grid', () => (
-    <Row
-      style={{ textAlign: 'center' }}
-    >
-      <Col width={3} order={number('Order 1', 4, orderOption)}> Col 1</Col>
-      <Col width={3} order={number('Order 2', 3, orderOption)}> Col 2</Col>
-      <Col width={3} order={number('Order 3', 1, orderOption)}> Col 3</Col>
-      <Col width={3} order={number('Order 4', 2, orderOption)}> Col 4</Col>
+    <Row style={{ textAlign: 'center' }}>
+      <Col width={3} order={number('Order 1', 4, orderOption)}>
+        {' '}
+        Col 1
+      </Col>
+      <Col width={3} order={number('Order 2', 3, orderOption)}>
+        {' '}
+        Col 2
+      </Col>
+      <Col width={3} order={number('Order 3', 1, orderOption)}>
+        {' '}
+        Col 3
+      </Col>
+      <Col width={3} order={number('Order 4', 2, orderOption)}>
+        {' '}
+        Col 4
+      </Col>
     </Row>
   ))
   .add('Responsive Grid', () => (
@@ -73,7 +82,9 @@ storiesOf('Layout | Grid', module)
           number('Extra Large Screen Width', 2, widthOption),
         ]}
         style={{ background: '#FFCDD2' }}
-      >Col 1</Col>
+      >
+        Col 1
+      </Col>
       <Col
         width={[
           number('Extra Small Screen Width', 12, widthOption),
@@ -83,7 +94,9 @@ storiesOf('Layout | Grid', module)
           number('Extra Large Screen Width', 2, widthOption),
         ]}
         style={{ background: '#B2EBF2' }}
-      >Col 2</Col>
+      >
+        Col 2
+      </Col>
       <Col
         width={[
           number('Extra Small Screen Width', 12, widthOption),
@@ -93,7 +106,9 @@ storiesOf('Layout | Grid', module)
           number('Extra Large Screen Width', 2, widthOption),
         ]}
         style={{ background: '#DCEDC8' }}
-      >Col 3</Col>
+      >
+        Col 3
+      </Col>
       <Col
         width={[
           number('Extra Small Screen Width', 12, widthOption),
@@ -103,6 +118,8 @@ storiesOf('Layout | Grid', module)
           number('Extra Large Screen Width', 2, widthOption),
         ]}
         style={{ background: '#FFE0B2' }}
-      >Col 4</Col>
+      >
+        Col 4
+      </Col>
     </Row>
   ));
