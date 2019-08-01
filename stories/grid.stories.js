@@ -38,7 +38,7 @@ storiesOf('Layout | Grid', module)
   .addDecorator(withKnobs)
   .addDecorator(withA11y)
   .addDecorator(jsxDecorator)
-  .add('Basic Grid', () => (
+  .add('Basic', () => (
     <Row
       p={number('Padding', 2, paddingOption)}
       m={number('Margin', 2, marginOption)}

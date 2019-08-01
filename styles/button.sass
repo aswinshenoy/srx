@@ -1,0 +1,36 @@
+@import "./base"
+
+.button
+  background: white
+  border: 1.5px solid transparent
+.button.button-disabled
+  opacity: 0.75!important
+.button.b-none
+  border: none!important
+  margin: 2px
+.button.b-none:focus
+  border: 2px solid blue!important
+  margin: 0
+
+.button-xs
+  font-size: 0.8rem
+  padding: 0.3rem 0.75rem
+.button-sm
+  font-size: 0.9rem
+  padding: 0.35rem 0.8rem
+.button-md
+  font-size: 1rem
+  padding: 0.4rem 0.85rem
+.button-lg
+  font-size: 1.1rem
+  padding: 0.45rem 0.9rem
+.button-xl
+  font-size: 1.2rem
+  padding: 0.5rem 0.95rem
+
+.button-inverse:focus, .button-inverse:hover
+  filter: invert(100%)
+
+.button:focus
+  outline: none
+  border: 1px solid

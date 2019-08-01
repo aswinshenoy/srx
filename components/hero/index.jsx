@@ -10,6 +10,7 @@ const Hero = props => {
       <div className="tagline">{props.tagline}</div>
       <h1>{props.title}</h1>
       <p>{props.paragraph}</p>
+      {props.buttons}
     </div>
   );
 
@@ -60,6 +61,10 @@ Hero.propTypes = {
     gradient: PropTypes.string,
     color: PropTypes.string,
   }),
+  /*
+  *  Accepts a node to hold buttons
+  */
+  buttons: PropTypes.node,
   /*
    * Additional custom class names for the hero
    */

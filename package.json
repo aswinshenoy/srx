@@ -1,6 +1,6 @@
 {
   "name": "srx",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "React Components Library focused on UX",
   "main": "dist/rivivo-srx.js",
   "unpkg": "dist/rivivo-srx.min.js",
