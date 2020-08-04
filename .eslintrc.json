@@ -16,10 +16,12 @@
     "jsx-a11y/href-no-hash": ["off"],
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "react/require-default-props": [{"ignoreFunctionalComponents":  true}],
+    "switch-colon-spacing": ["error", {"after": true, "before": false}],
     "max-len": [
       "warn",
       {
-        "code": 80,
+        "code": 120,
         "tabWidth": 2,
         "comments": 80,
         "ignoreComments": false,
