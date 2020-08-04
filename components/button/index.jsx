@@ -36,7 +36,7 @@ Button.defaultProps ={
 
 Button.propTypes = {
   /*
-  *  Background for the Button
+   *  Background for the Button
   */
   bg: PropTypes.shape({
     color: PropTypes.string,
@@ -76,4 +76,4 @@ Button.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-export default  Button;
+export default Button;

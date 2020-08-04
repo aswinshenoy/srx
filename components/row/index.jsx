@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap-grid.min.css';
 /* Imports helper functions for converting props to bootstrap notations */
 import { getStyleClass } from '../../utility/BootstrapNotation';
 
-
 const cols = props => {
   if(props.gutter){
     return (
