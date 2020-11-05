@@ -8,9 +8,7 @@ body {
     min-height: 100vh;
     font-family: 'Rajdhani', sans-serif;
 }
-image {
-    max-width: 100%
-}
+img { max-width: 100% }
 
 h1, h2 {
     font-weight: 700;
@@ -29,8 +27,7 @@ h3, h4, h5, h6 {
 .plain-link:hover {
     text-decoration: none!important
 }
-.plain-button
-{
+.plain-button {
     background: none!important;
     border: none;
 }

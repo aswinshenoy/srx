@@ -3,3 +3,5 @@ export Card from './Card';
 export Col from './Col';
 export Flex from './Flex';
 export Row from './Row';
+export TextInput from './TextInput';
+

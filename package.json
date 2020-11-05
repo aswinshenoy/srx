@@ -1,6 +1,6 @@
 {
   "name": "srx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A highly flexible bootstrap-inspired React Design System",
   "main": "build/index.cjs.js",
   "module": "build/index.esm.js",
@@ -21,7 +21,7 @@
     "build-storybook": "build-storybook -c .storybook -o .out",
     "lint:fix": "eslint ./components ./stories ./utility --fix",
     "prettier:write": "prettier --write --list-different \"**/*.{js,jsx}\"\" \"",
-    "storybook": "start-storybook -p 3200"
+    "storybook": "start-storybook -p 3300"
   },
   "repository": {
     "type": "git",

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import styled from '@emotion/styled';
 
 import { keyframes } from 'emotion';
+import Ripple from './ripple';
 
 const emptyFunc = () => {};
 
@@ -14,40 +15,43 @@ const gradient = keyframes`
 `;
 
 const StyledButton = styled.button`
-  font-weight: bold;
-  border: none !important;
-  margin: 0 0.25rem;
-  padding: 0.5rem 1.5rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.35rem;
-  line-height: 1;
-  color: ${props => (props.brandColors ? 'white!important' : '#424242')};
-  background: ${props => (props.brandColors ? `#7B1FA2` : '#EEEEEE')};
-  text-decoration: none;
-  &:disabled {
-    color: ${props => (props.brandColors ? `#4A148C` : 'black')};
-    background: ${props => (props.brandColors ? `#616161` : '#E0E0E0')};
-    cursor: not-allowed;
-  }
-  &:hover,
-  &:focus {
+    font-weight: bold;
+    border: none!important;
+    margin: 0 0.25rem;
+    padding: 0.5rem 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    font-size: 1.35rem;
+    line-height: 1;
+    text-align: center;
+    overflow: hidden;
+    color: ${props => props.brandColors ? 'white!important' : '#424242'};
+    background: ${props => props.brandColors ? `#7B1FA2` : '#EEEEEE'};
     text-decoration: none;
-    outline: none !important;
-    color: ${props => (props.brandColors ? `#4A148C` : 'black')};
-    background: ${props => (props.brandColors ? `#D500F9` : '#E0E0E0')};
-    animation: ${props => (props.brandColors ? `${gradient} 1s ease infinite` : null)};
-    &:disabled {
-      color: ${props => (props.brandColors ? `#4A148C` : 'black')};
-      background: ${props => (props.brandColors ? `#880E4F` : '#E0E0E0')};
+    &:disabled{
+        color: ${props => props.brandColors ? `#4A148C` : 'black'};
+        background: ${props => props.brandColors ? `#616161` : '#E0E0E0'};
+        cursor: not-allowed;
     }
-  }
+    &:hover, &:focus {
+      text-decoration: none;
+      outline: none!important;
+      color: ${props => props.brandColors ? `#4A148C` : 'black'};
+      background: ${props => props.brandColors ? `#D500F9` : '#E0E0E0'};
+      animation: ${props => props.brandColors ? `${gradient} 1s ease infinite` : null};
+      &:disabled{
+        color: ${props => props.brandColors ? `#4A148C` : 'black'};
+        background: ${props => props.brandColors ? `#880E4F` : '#E0E0E0'};
+      }
+    }
 `;
 
 const Button = ({
   type, text, link, label, children, target, rel,
+  p = null, px = null, py = null,
   shadow, round = 2, bg, style, fw = false,
   className, brandAccent,
   disabled = false, title,
@@ -55,8 +59,8 @@ const Button = ({
 }) => {
   const borderRadius = (() => {
     switch (round) {
-      case 1: return '0.15rem';
-      case 2: return '0.25rem';
+      case 1: return '0.2rem';
+      case 2: return '0.3rem';
       case 3: return '0.5rem';
       case 4: return '1rem';
       case 5: return '2rem';
@@ -77,11 +81,15 @@ const Button = ({
       as={link != null ? 'a' : 'button'}
       aria-label={label}
       type={type}
-      className={classNames(shadowClass, { 'w-100': fw }, className)}
-      onClick={e => {
-        e.stopPropagation();
-        onClick();
-      }}
+      className={classNames(
+        shadowClass,
+        p!=null && (px==null && py==null) ? `p-${p}` : null,
+        px!=null && (p==null) ? `px-${px}` : null,
+        py!=null && (p==null) ? `py-${py}` : null,
+        { 'w-100': fw },
+        className
+      )}
+      onClick={e => { e.stopPropagation(); onClick(); }}
       onBlur={onBlur}
       onFocus={onFocus}
       tabIndex={0}
@@ -91,12 +99,9 @@ const Button = ({
       href={link}
       target={target}
       rel={rel}
-      style={{
-        borderRadius,
-        background: bg,
-        ...style,
-      }}
+      style={{ borderRadius, background: bg, ...style, }}
     >
+      <Ripple />
       {children || text}
     </StyledButton>
   );
@@ -105,6 +110,9 @@ const Button = ({
 Button.propTypes = {
   shadow: PropTypes.oneOf([0, 1, 2, 3]),
   round: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
+  p: PropTypes.oneOf([0,1,2,3,4,5]),
+  px: PropTypes.oneOf([0,1,2,3,4,5]),
+  py: PropTypes.oneOf([0,1,2,3,4,5]),
   bg: PropTypes.string,
   disabled: PropTypes.bool,
   fw: PropTypes.bool,
