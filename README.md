@@ -16,7 +16,7 @@ npm i srx --save
 ```
 
 ## How To Use?
-1.Import required components from the library
+1.Import required components from the library.
 ```
 import { Row, Col } from 'srx'
 ```
@@ -36,6 +36,7 @@ import { Row, Col } from 'srx'
 3. Col
 4. Flex
 5. Row
+6. TextInput
 
-## Licenses
-* The source code is licensed under the [MIT](LICENSE)
+## License
+[MIT](LICENSE) Open Source License

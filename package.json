@@ -1,6 +1,6 @@
 {
   "name": "srx",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A highly flexible bootstrap-inspired React Design System",
   "main": "build/index.cjs.js",
   "module": "build/index.esm.js",

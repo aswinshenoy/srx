@@ -89,11 +89,12 @@ const StyledTextInput = styled.input`
 
 const TextInput = ({
    id, label, name, placeholder, type, value: val, inputClassName, className, inputStyles,
-   icon, description, inputProps,
+   icon, inputProps,
    isRequired = false, isDisabled = false, showLimit = true, alwaysShowLabel = false, hideLabel = false, minimal = true, autoFocus = false,
-   hasErrors = false, highlighters, suggesters,
-   errorText, customRegex, disableSpace, charLimit, minLength = 0,
+   hasErrors = false, highlighters,
+   customRegex, disableSpace, charLimit, minLength = 0,
    rows, spellCheck, autoComplete, autoCorrect, autoCapitalize,
+   renderAbove, renderBottom,
    onValidate = () => {}, onChange, onFocus, onBlur
  }) => {
 
@@ -101,12 +102,10 @@ const TextInput = ({
 
   const [value, setValue] = useState(val !== null ? val : '');
 
+  useEffect(() => { setValue(val) },[val]);
+
   const [isTyping, setTyping] = useState(false);
   const [errorState, setErrorState] = useState(false);
-
-  const [showSuggestor, setShowSuggestor] = useState(false);
-  const [currentSuggestor, setSuggestor] = useState(0);
-  const [currSug, setSug] = useState(0);
 
   const textInput = useRef();
   const backdropRef = useRef();
@@ -139,20 +138,6 @@ const TextInput = ({
     return null
   };
 
-  const handleSuggestionSelect = sel => {
-    suggesters.map(i => {
-      const matches = value.match(i.regex);
-      if (matches && matches.length > 0) {
-        setShowSuggestor(false);
-        const newVal = value.slice(0, -matches[0].length + 1) + sel + ' ';
-        setValue(newVal);
-        if(typeof onChange === "function")
-          onChange(newVal);
-        textInput.current.focus();
-      }
-    });
-  };
-
   const handleChange = (e) => {
     const value = e.currentTarget.value;
     if(typeof onChange === "function")
@@ -160,16 +145,6 @@ const TextInput = ({
         onChange(parseInt(value));
       else
         onChange(value);
-    if(suggesters && suggesters.length > 0)
-      suggesters.map((i,index) => {
-        const matches = value.match(i.regex);
-        if(matches && matches.length > 0) {
-          setShowSuggestor(true);
-          i.onEnter(matches[0]);
-          setSuggestor(index)
-        }
-        else setShowSuggestor(false);
-      });
     setValue(value);
     if(typeof onValidate === "function")
       onValidate(validateInput(value));
@@ -200,32 +175,6 @@ const TextInput = ({
       setErrorState(true);
   };
 
-  const handleKeyDown = (e) => {
-    if(showSuggestor)
-    {
-      // handle enter key press
-      if(e.keyCode === 13){
-        e.preventDefault();
-        setSug(0);
-        const valField =  suggesters[currentSuggestor].valueField ?
-          suggesters[currentSuggestor].valueField : 'value';
-        handleSuggestionSelect(suggesters[currentSuggestor].suggestions[currSug][valField]);
-      }
-      // handle bottom arrow key press
-      if(e.keyCode === 40 && suggesters[currentSuggestor].suggestions.length-1 > currSug)
-      {
-        e.preventDefault();
-        setSug(currSug+1);
-      }
-      // handle up arrow key press
-      if(e.keyCode === 38 && currSug > 0)
-      {
-        e.preventDefault();
-        setSug(currSug-1);
-      }
-    }
-  };
-
   const props = {
     ref: textInput,
     "aria-label": label,
@@ -242,25 +191,12 @@ const TextInput = ({
     maxLength: charLimit,
     required: isRequired,
     minimal: minimal,
-    onKeyDown: handleKeyDown,
     onFocus: handleFocus,
     onBlur: handleBlur,
     onChange: handleChange,
     style: inputStyles,
   };
 
-  const descriptionTextID = type==='password' ? `${inputID}-password-constraints` : description ? `${inputID}-field-description` : null;
-
-  const renderConstraints = (descriptionTextID != null) &&
-    <div id={descriptionTextID} className="small p-2">
-      {
-        description ? description :
-          type === 'password' ?
-            minLength ? `Passwords should have atleast ${minLength} characters. Try to use a mix of letters, numbers & symbols.` :
-              `A strong password usually has 8 or more characters, and is a mix of letters, number and symbols`
-            : null
-      }
-    </div>;
 
   const renderInput = type === "textarea" ?
     <div className="d-inline-block w-100 textarea-container position-relative">
@@ -269,7 +205,6 @@ const TextInput = ({
         rows={rows}
         onScroll={handleScroll}
         className={classNames(inputClassName, 'form-control text-input-field',)}
-        aria-describedby={descriptionTextID}
         {...props}
         {...inputProps}
       />
@@ -284,7 +219,6 @@ const TextInput = ({
         { 'is-invalid' : (hasErrors || errorState) && (value && value.length > 0 || isRequired) },
         { 'minimal': minimal},
       )}
-      aria-describedby={descriptionTextID}
       {...props}
       {...inputProps}
     />;
@@ -300,22 +234,8 @@ const TextInput = ({
     </label>
   </div>;
 
-  const renderErrorState = ((hasErrors || errorState) && (value && value.length > 0) && isRequired) &&
-  <div className="small text-danger mb-1 px-1">
-    {
-      errorText ? errorText :
-        minLength && minLength > value.length ?
-          `Your password should be atleast ${minLength} characters long.`:
-          `Please enter a valid ${String(label).toLowerCase()}.`
-    }
-  </div>;
-
   return <div
-    className={classNames(
-      "form-group p-2 rounded mb-0",
-      {'position-relative': showSuggestor},
-      className
-    )}
+    className={classNames("form-group p-2 rounded mb-0", className)}
     style={{ background: '#FAFAFA' }}
   >
     <div className="row m-0">
@@ -326,12 +246,12 @@ const TextInput = ({
         currentLength={value && value.length}
       />
     </div>
-    {renderErrorState}
+    {renderAbove}
     <div className="d-flex align-items-center">
       {icon && <span className="pr-2">{icon}</span>}
       {renderInput}
     </div>
-    {renderConstraints}
+    {renderBottom}
   </div>
 
 };
@@ -357,7 +277,8 @@ TextInput.propTypes  = {
   inputStyles: PropTypes.object,
   inputProps: PropTypes.object,
   customRegex: PropTypes.any,
-  errorText: PropTypes.string,
+  renderAbove: PropTypes.node,
+  renderBottom: PropTypes.node,
   rows: PropTypes.number,
   spellCheck: PropTypes.string,
   autoComplete: PropTypes.oneOf(["off", "on", "email", "current-password", "username"]),
