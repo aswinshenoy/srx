@@ -2,5 +2,11 @@
   "printWidth": 120,
   "singleQuote": true,
   "trailingComma": "es5",
-  "tabWidth": 2
+  "tabWidth": 2,
+  "react/jsx-first-prop-new-line": [1, "multiline"],
+  "react/jsx-max-props-per-line": [1,
+    {
+      "maximum": 1
+    }
+  ]
 }

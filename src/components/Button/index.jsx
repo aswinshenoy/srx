@@ -1,119 +1,119 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
 
-import { keyframes } from 'emotion';
+import { getBorderRadiusStyle, getColorByVariant, getTextColorByVariant } from '../../utils/styles';
+import { getMarginClassName, getPaddingClassName, getShadowClassName } from '../../utils/classNames';
+
 import Ripple from './ripple';
+import { ThemeContext } from '../../utils/theme';
 
 const emptyFunc = () => {};
 
-const gradient = keyframes`
-      0% { background-position: 0 50%; } 
-      50% { background-position: 0 100%; } 
-      100% { background-position: 0 50%; } 
-`;
-
 const StyledButton = styled.button`
-    font-weight: bold;
-    border: none!important;
-    margin: 0 0.25rem;
-    padding: 0.5rem 1.5rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-    font-size: 1.35rem;
-    line-height: 1;
-    text-align: center;
-    overflow: hidden;
-    color: ${props => props.brandColors ? 'white!important' : '#424242'};
-    background: ${props => props.brandColors ? `#7B1FA2` : '#EEEEEE'};
-    text-decoration: none;
-    &:disabled{
-        color: ${props => props.brandColors ? `#4A148C` : 'black'};
-        background: ${props => props.brandColors ? `#616161` : '#E0E0E0'};
-        cursor: not-allowed;
-    }
-    &:hover, &:focus {
-      text-decoration: none;
-      outline: none!important;
-      color: ${props => props.brandColors ? `#4A148C` : 'black'};
-      background: ${props => props.brandColors ? `#D500F9` : '#E0E0E0'};
-      animation: ${props => props.brandColors ? `${gradient} 1s ease infinite` : null};
-      &:disabled{
-        color: ${props => props.brandColors ? `#4A148C` : 'black'};
-        background: ${props => props.brandColors ? `#880E4F` : '#E0E0E0'};
-      }
-    }
+  font-weight: bold;
+  border: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+  width: ${({ fw }) => (fw ? '100%' : null)};
+  border-radius: ${({ borderRadius }) => borderRadius || null};
+  background: ${({ transparent, bg }) => (!transparent ? bg : 'transparent!important')};
+  color: ${({ color }) => color || null};
+  text-decoration: none !important;
+  &:hover,
+  &:focus {
+    outline: none !important;
+    text-decoration: none !important;
+    background: ${({ color }) => color || null};
+    color: ${({ transparent, bg }) => (!transparent ? bg : 'transparent!important')};
+  }
 `;
 
 const Button = ({
-  type, text, link, label, children, target, rel,
-  p = null, px = null, py = null,
-  shadow, round = 2, bg, style, fw = false,
-  className, brandAccent,
-  disabled = false, title,
-  onClick = emptyFunc, onFocus = emptyFunc, onBlur = emptyFunc,
+  type,
+  text,
+  label,
+  children,
+  link,
+  target,
+  rel,
+  disabled = false,
+  title,
+  p = null,
+  px = 3,
+  py = 2,
+  m = null,
+  mx = null,
+  my = null,
+  transparent,
+  variant = 'primary',
+  shadow,
+  round = 2,
+  disableRipple = false,
+  fw = false,
+  className,
+  style,
+  inverseColors = false,
+  onClick = emptyFunc,
+  onFocus = emptyFunc,
+  onBlur = emptyFunc,
 }) => {
-  const borderRadius = (() => {
-    switch (round) {
-      case 1: return '0.2rem';
-      case 2: return '0.3rem';
-      case 3: return '0.5rem';
-      case 4: return '1rem';
-      case 5: return '2rem';
-      default: return 0;
-    }
-  })();
-  const shadowClass = (() => {
-    switch (shadow) {
-      case 0: return 'shadow-none';
-      case 1: return 'shadow-sm';
-      case 2: return 'shadow';
-      case 3: return 'shadow-lg';
-      default: return null;
-    }
-  })();
+  const theme = useContext(ThemeContext);
+
   return (
     <StyledButton
       as={link != null ? 'a' : 'button'}
       aria-label={label}
       type={type}
-      className={classNames(
-        shadowClass,
-        p!=null && (px==null && py==null) ? `p-${p}` : null,
-        px!=null && (p==null) ? `px-${px}` : null,
-        py!=null && (p==null) ? `py-${py}` : null,
-        { 'w-100': fw },
-        className
-      )}
-      onClick={e => { e.stopPropagation(); onClick(); }}
-      onBlur={onBlur}
-      onFocus={onFocus}
-      tabIndex={0}
-      title={title || label}
       disabled={disabled}
-      brandColors={brandAccent}
       href={link}
+      title={title}
       target={target}
       rel={rel}
-      style={{ borderRadius, background: bg, ...style, }}
+      onClick={e => {
+        e.stopPropagation();
+        onClick();
+      }}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      fw={fw}
+      transparent={transparent}
+      bg={inverseColors ? getTextColorByVariant(variant, theme) : getColorByVariant(variant, theme)}
+      color={transparent || inverseColors ? getColorByVariant(variant, theme) : getTextColorByVariant(variant, theme)}
+      borderRadius={getBorderRadiusStyle(round)}
+      className={classNames(
+        getPaddingClassName({ p, px, py }),
+        getMarginClassName({ m, mx, my }),
+        getShadowClassName(shadow),
+        className
+      )}
+      style={style}
     >
-      <Ripple />
+      {!disableRipple && <Ripple />}
       {children || text}
     </StyledButton>
   );
 };
 
 Button.propTypes = {
+  type: PropTypes.oneOf(['submit', 'button']),
+  variant: PropTypes.oneOf(['primary', 'secondary', 'dark', 'light', 'success', 'danger', 'warning']),
   shadow: PropTypes.oneOf([0, 1, 2, 3]),
   round: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
-  p: PropTypes.oneOf([0,1,2,3,4,5]),
-  px: PropTypes.oneOf([0,1,2,3,4,5]),
-  py: PropTypes.oneOf([0,1,2,3,4,5]),
-  bg: PropTypes.string,
+  p: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
+  px: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
+  py: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
+  m: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
+  mx: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
+  my: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
   disabled: PropTypes.bool,
   fw: PropTypes.bool,
   children: PropTypes.node,
@@ -122,7 +122,14 @@ Button.propTypes = {
   onClick: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
+  label: PropTypes.string,
+  target: PropTypes.string,
+  rel: PropTypes.string,
+  title: PropTypes.string,
   className: PropTypes.string,
+  transparent: PropTypes.bool,
+  disableRipple: PropTypes.bool,
+  inverseColors: PropTypes.bool,
   style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };
 

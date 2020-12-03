@@ -1,13 +1,26 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { getFlexClassNames, getPaddingClassName } from '../../utils/classNames';
 
 const Col = ({
-  s = null, sm = null, md = null, lg = null, xl = null,
-  p = null, px = null, py = null,
-  order = null, orderMD = null,
-  flexCenter = false, flexVC = false, flexHC = false, flexHR = false,
-  children, className,
+  s = null,
+  sm = null,
+  md = null,
+  lg = null,
+  xl = null,
+  p = null,
+  px = null,
+  py = null,
+  order = null,
+  orderMD = null,
+  flexCenter = false,
+  flexVC = false,
+  flexHC = false,
+  flexHR = false,
+  children,
+  className,
+  style,
 }) => (
   <div
     className={classNames(
@@ -17,17 +30,13 @@ const Col = ({
       lg != null ? `col-lg-${lg}` : null,
       xl != null ? `col-lg-${xl}` : null,
       { col: s == null && sm == null && md == null && lg == null && xl == null },
-      p != null && (px == null && py == null) ? `p-${p}` : null,
-      px != null && p == null ? `px-${px}` : null,
-      py != null && p == null ? `py-${py}` : null,
       order != null ? `order-${order}` : null,
       orderMD != null ? `order-${orderMD}` : null,
-      { 'd-flex': flexCenter || flexHC || flexVC || flexHR },
-      { 'align-items-center': flexCenter || flexVC },
-      { 'justify-content-center': flexCenter || flexHC },
-      { 'justify-content-end': flexHR },
+      getPaddingClassName({ p, px, py }),
+      getFlexClassNames({ flexCenter, flexVC, flexHC, flexHR }),
       className
     )}
+    style={style}
   >
     {children}
   </div>
@@ -49,6 +58,7 @@ Col.propTypes = {
   flexVC: PropTypes.bool,
   flexHR: PropTypes.bool,
   className: PropTypes.string,
+  style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 

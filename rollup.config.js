@@ -5,7 +5,6 @@ import image from '@rollup/plugin-image';
 import url from '@rollup/plugin-url';
 import filesize from 'rollup-plugin-filesize';
 import postcss from 'rollup-plugin-postcss';
-// import { terser } from "rollup-plugin-terser";
 
 import pkg from './package.json';
 
@@ -39,7 +38,6 @@ const PLUGINS = [
   image(),
   url(),
   commonjs(),
-  // terser(),
   // shows file size in the cli after build
   filesize(),
 ];

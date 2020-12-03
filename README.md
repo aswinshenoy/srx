@@ -1,14 +1,12 @@
 # SRX - React Component Library
-![npm](https://img.shields.io/npm/v/srx.svg?style=flat-square)
-![npm-downloads](https://img.shields.io/npm/dm/srx.svg)
-![license](https://img.shields.io/github/license/aswinshenoy/srx.svg)
+[![npm](https://img.shields.io/npm/v/srx.svg?style=flat-square)](https://www.npmjs.com/package/srx)
+![npm-downloads](https://img.shields.io/npm/dy/srx.svg)
+[![license](https://img.shields.io/github/license/aswinshenoy/srx.svg)](LICENSE)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://srx.netlify.app/)
 
 
 SRX is a highly flexible Bootstrap-inspired React Design System with an aim to give consistent, 
 accessible and intuitive user experience through writing meaningful, minimal code. 
-
-- NPM - https://www.npmjs.com/package/srx
-- Storybook - https://srx.netlify.app/
 
 ## How To Install?
 ```

@@ -18,6 +18,8 @@
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "react/require-default-props": [{"ignoreFunctionalComponents":  true}],
     "switch-colon-spacing": ["error", {"after": true, "before": false}],
+    "react/jsx-first-prop-new-line": [1, "multiline"],
+    "react/jsx-max-props-per-line": [1, {"maximum": 4}],
     "max-len": [
       "warn",
       {
